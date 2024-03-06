@@ -28,6 +28,10 @@ function operate(operator, a, b) {
         case 'x':
             return multiply(a, b);
         case '/':
+            if (b === 0) {
+                alert('ERROR: Stop trying to divide by 0');
+                return 0;
+            }
             return divide(a, b);
         default:
             console.error('Unknown operator');
@@ -47,7 +51,8 @@ function updateDisplayDigit(digit) {
 function updateDisplayOperator(operator) {
     // If the operation isn't null, we're calculating the current output
     if (currentOperation) {
-        firstNum = operate(currentOperation, parseInt(firstNum), parseInt(secondNum));
+        firstNum = operate(currentOperation, Number(firstNum), Number(secondNum));
+        if (!Number.isInteger(firstNum)) firstNum = firstNum.toFixed(5);
         display.textContent = firstNum;
         secondNum = 0;
     }
