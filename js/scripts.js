@@ -68,16 +68,16 @@ function updateDisplayOperator(operator) {
     }
     switch (currentOperation) {
         case '+':
-            document.querySelector(`#add`).style.backgroundColor = 'hsl(31, 82%, 58%)';
+            document.querySelector(`#add`).style.backgroundColor = '';
             break;
         case '-':
-            document.querySelector(`#subtract`).style.backgroundColor = 'hsl(31, 82%, 58%)';
+            document.querySelector(`#subtract`).style.backgroundColor = '';
             break;
         case 'x':
-            document.querySelector(`#multiply`).style.backgroundColor = 'hsl(31, 82%, 58%)';
+            document.querySelector(`#multiply`).style.backgroundColor = '';
             break;
         case '/':
-            document.querySelector(`#divide`).style.backgroundColor = 'hsl(31, 82%, 58%)';
+            document.querySelector(`#divide`).style.backgroundColor = '';
             break;
     }
     currentOperation = operator;

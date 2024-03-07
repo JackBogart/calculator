@@ -62,6 +62,7 @@ button {
     border-radius: 3px;
     flex-grow: 1;
     color: white;
+    cursor: pointer;
 }
 
 .clicked {
