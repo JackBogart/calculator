@@ -15,7 +15,7 @@ function divide(a, b) {
 }
 
 let firstNum = 0;
-let secondNum = 0;
+let secondNum = null;
 let currentOperation = '';
 const display = document.querySelector('#display');
 
@@ -30,7 +30,7 @@ function operate(operator, a, b) {
         case '/':
             if (b === 0) {
                 alert('ERROR: Stop trying to divide by 0');
-                return 0;
+                return NaN;
             }
             return divide(a, b);
         default:
@@ -44,6 +44,7 @@ function updateDisplayDigit(digit) {
         firstNum = Number(firstNum + digit).toString();
         display.textContent = firstNum;
     } else {
+        if (secondNum == null) secondNum = 0;
         secondNum = Number(secondNum + digit).toString();
         display.textContent = secondNum;
     }
@@ -51,7 +52,8 @@ function updateDisplayDigit(digit) {
 
 function updateDisplayOperator(operator) {
     // If the operation isn't null, we're calculating the current output
-    if (currentOperation && secondNum != 0) {
+    if (operator === '*') operator = 'x';
+    if (currentOperation && secondNum != null) {
         // TO-DO: Need to handle empty second input differently
         firstNum = operate(currentOperation, Number(firstNum), Number(secondNum));
         if (!Number.isInteger(firstNum)) {
@@ -62,22 +64,50 @@ function updateDisplayOperator(operator) {
             firstNum = firstNum.toFixed(minimumDecimalPlaces);
         }
         display.textContent = firstNum;
-        secondNum = 0;
+        secondNum = null;
+    }
+    switch (currentOperation) {
+        case '+':
+            document.querySelector(`#add`).style.backgroundColor = 'hsl(31, 82%, 58%)';
+            break;
+        case '-':
+            document.querySelector(`#subtract`).style.backgroundColor = 'hsl(31, 82%, 58%)';
+            break;
+        case 'x':
+            document.querySelector(`#multiply`).style.backgroundColor = 'hsl(31, 82%, 58%)';
+            break;
+        case '/':
+            document.querySelector(`#divide`).style.backgroundColor = 'hsl(31, 82%, 58%)';
+            break;
     }
     currentOperation = operator;
+    switch (currentOperation) {
+        case '+':
+            document.querySelector(`#add`).style.backgroundColor = 'hsl(30, 58%, 39%)';
+            break;
+        case '-':
+            document.querySelector(`#subtract`).style.backgroundColor = 'hsl(30, 58%, 39%)';
+            break;
+        case 'x':
+            document.querySelector(`#multiply`).style.backgroundColor = 'hsl(30, 58%, 39%)';
+            break;
+        case '/':
+            document.querySelector(`#divide`).style.backgroundColor = 'hsl(30, 58%, 39%)';
+            break;
+    }
 }
 
-function backspace() {
-    if (!currentOperation) {
+function inputBackspace() {
+    if (!currentOperation && firstNum.toString().length > 0) {
         firstNum = Number(firstNum.toString().slice(0, -1));
         display.textContent = firstNum;
-    } else {
+    } else if (currentOperation && secondNum.toString().length > 0) {
         secondNum = Number(secondNum.toString().slice(0, -1));
         display.textContent = secondNum;
     }
 }
 
-function addDecimal() {
+function inputDecimal() {
     if (!currentOperation && !firstNum.toString().includes('.')) {
         firstNum += '.';
         display.textContent = firstNum;
@@ -110,21 +140,25 @@ clear.addEventListener('click', () => {
 
 const del = document.querySelector('#delete');
 del.addEventListener('click', () => {
-    backspace();
+    inputBackspace();
 });
 
 const decimal = document.querySelector('#decimal');
 decimal.addEventListener('click', () => {
-    addDecimal();
+    inputDecimal();
 });
 
 addEventListener('keydown', (event) => {
     if (!isNaN(event.key)) {
         updateDisplayDigit(event.key);
     } else if (event.key === 'Backspace') {
-        backspace();
+        inputBackspace();
     } else if (event.key === 'Enter') {
         updateDisplayOperator('');
+    } else if (event.key === '.') {
+        inputDecimal();
+    } else if ('+-*/'.includes(event.key)) {
+        updateDisplayOperator(event.key);
     }
     console.log(event.key);
 });

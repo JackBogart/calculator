@@ -62,3 +62,7 @@ button {
     flex-grow: 1;
     color: white;
 }
+
+.clicked {
+    background-color: hsl(30, 57%, 35%);
+}
