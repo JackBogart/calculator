@@ -45,10 +45,11 @@ body {
     border-radius: 3px;
     height: 80px;
     justify-content: flex-end;
+    align-items: center;
 }
 
 #display {
-    font-size: 70px;
+    font-size: 60px;
     font-family: 'Courier New', Courier, monospace;
     overflow-x: scroll;
 }
